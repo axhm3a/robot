@@ -15,12 +15,18 @@ void setup()
   }
 
   mySerial.begin(9600);
-  
+  while (!mySerial) {
+    ;
+  }
   SeeedOled.init();
   SeeedOled.clearDisplay();
   SeeedOled.setNormalDisplay();
   SeeedOled.setPageMode();
 
+  mySerial.println("AT+CIPMUX=1");
+  delay(500);
+  mySerial.println("AT+CIPSERVER=1,23");
+  delay(500);
   Serial.println("booted...");
 }
 void loop()
