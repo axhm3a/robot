@@ -15,7 +15,7 @@ void setup()
   SeeedOled.setPageMode();
   SeeedOled.setTextXY(0,0);  
   SeeedOled.putString("booting");
-  Serial.begin(115200);
+  Serial.begin(9600);
   
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
@@ -42,5 +42,5 @@ void loop()
   }
 
   
-  delay(1000);
+  delay(500);
 }
