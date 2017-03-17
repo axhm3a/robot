@@ -33,11 +33,11 @@ void loop()
   SeeedOled.putNumber(ultrasonic.RangeInCentimeters);
   SeeedOled.putString(" cm   ");
   
-  if (mySerial.available()) {
+  while (mySerial.available()) {
     Serial.write(mySerial.read());
   }
   
-  if (Serial.available()) {
+  while (Serial.available()) {
     mySerial.write(Serial.read());
   }
 
