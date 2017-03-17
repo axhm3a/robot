@@ -14,14 +14,13 @@ void setup()
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  mySerial.begin(115200);
+  mySerial.begin(9600);
   
   SeeedOled.init();
   SeeedOled.clearDisplay();
   SeeedOled.setNormalDisplay();
   SeeedOled.setPageMode();
-  SeeedOled.setTextXY(0,0);  
-  SeeedOled.putString("booted");
+
   Serial.println("booted...");
 }
 void loop()
@@ -36,11 +35,20 @@ void serialPassTrough()
 {
   while (mySerial.available()) {
     Serial.write(mySerial.read());
+    SeeedOled.setTextXY(7,0);
+    SeeedOled.putString("[RX]");
   }
+  SeeedOled.setTextXY(7,0);
+  SeeedOled.putString("[  ]");
   
   while (Serial.available()) {
     mySerial.write(Serial.read());
+    SeeedOled.setTextXY(7,5);
+    SeeedOled.putString("[TX]");
   }
+
+  SeeedOled.setTextXY(7,5);
+  SeeedOled.putString("[  ]");
 }
 
 void rangeDetection()
@@ -48,7 +56,8 @@ void rangeDetection()
   ultrasonic.MeasureInCentimeters();
   SeeedOled.setTextXY(1,0);
   //SeeedOled.clearDisplay();
+  SeeedOled.putString("DST:     cm");
+  SeeedOled.setTextXY(1,5);
   SeeedOled.putNumber(ultrasonic.RangeInCentimeters);
-  SeeedOled.putString(" cm   ");
 }
 
