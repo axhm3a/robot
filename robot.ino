@@ -5,6 +5,9 @@
 
 SoftwareSerial mySerial(5, 6);
 Ultrasonic ultrasonic(7);
+
+String command;
+
 void setup()
 {
   Wire.begin();
@@ -32,10 +35,40 @@ void setup()
 void loop()
 {  
   rangeDetection();
-  serialPassTrough();
-
+  //serialPassTrough();
+  readWifi();
   delay(500);
 }
+
+void readWifi() 
+{
+  while (mySerial.available()) {
+    char c = mySerial.read();
+    command += c;
+  }
+
+  command.trim();
+  
+  if(command.indexOf(":") != -1) {
+    command = command.substring(command.indexOf(":") +1);
+
+    if(command.startsWith("#"))
+    {
+      SeeedOled.setTextXY(2,0);
+      for (int i = 1; i < command.length(); i++) {
+        SeeedOled.putChar(command.charAt(i));  
+      }  
+    }
+    
+    
+  }
+  
+ 
+  command = "";
+}
+
+
+
 
 void serialPassTrough()
 {
